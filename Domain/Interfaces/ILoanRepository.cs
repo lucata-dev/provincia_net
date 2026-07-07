@@ -6,11 +6,11 @@ namespace Domain.Interfaces
     {
         Task<IEnumerable<Loan>> GetAllAsync();
 
-        Task AddAsync(Loan book);
+        Task AddAsync(Loan loan);
 
-        void Update(Loan book);
+        void Update(Loan loan);
 
-        void Remove(Loan book);
+        void Remove(Loan loan);
 
         Task<Loan?> GetLoanByIdAsync(int id);
 

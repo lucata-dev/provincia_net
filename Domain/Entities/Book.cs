@@ -14,7 +14,6 @@ namespace Domain.Entities
         [Required]
         public string? ISBN { get; set; }
 
-        [Required]
         public string? Synopsis { get; set; }
 
         public int PublicationYear { get; set; }

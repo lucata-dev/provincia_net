@@ -10,11 +10,11 @@ namespace Application.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _repository;
+        private readonly ICategoryRepository categoryRepository;
 
-        public CategoryService(ICategoryRepository repository)
+        public CategoryService(ICategoryRepository categoryRepository)
         {
-            _repository = repository;
+            this.categoryRepository = categoryRepository;
         }
 
         public async Task<int> CreateAsync(CreateCategoryDto dto)
@@ -25,22 +25,22 @@ namespace Application.Services
                 Description = dto.Description
             };
 
-            await _repository.AddAsync(category);
-            await _repository.SaveChangesAsync();
+            await this.categoryRepository.AddAsync(category);
+            await this.categoryRepository.SaveChangesAsync();
             return category.Id;
         }
 
         public async Task DeleteAsync(int id)
         {
-            var category = await _repository.GetByIdAsync(id);
+            var category = await this.categoryRepository.GetByIdAsync(id);
             if (category is null) return;
-            _repository.Remove(category);
-            await _repository.SaveChangesAsync();
+            this.categoryRepository.Remove(category);
+            await this.categoryRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
-            var categories = await _repository.GetAllAsync();
+            var categories = await this.categoryRepository.GetAllAsync();
             return categories.Select(c => new CategoryDto
             {
                 Id = c.Id,
@@ -51,7 +51,7 @@ namespace Application.Services
 
         public async Task<CategoryDto?> GetByIdAsync(int id)
         {
-            var c = await _repository.GetByIdAsync(id);
+            var c = await this.categoryRepository.GetByIdAsync(id);
             if (c is null) return null;
             return new CategoryDto
             {
@@ -63,14 +63,14 @@ namespace Application.Services
 
         public async Task UpdateAsync(int id, UpdateCategoryDto dto)
         {
-            var category = await _repository.GetByIdAsync(id);
+            var category = await this.categoryRepository.GetByIdAsync(id);
             if (category is null) return;
 
             if (dto.Name is not null) category.Name = dto.Name;
             if (dto.Description is not null) category.Description = dto.Description;
 
-            _repository.Update(category);
-            await _repository.SaveChangesAsync();
+            this.categoryRepository.Update(category);
+            await this.categoryRepository.SaveChangesAsync();
         }
     }
 }

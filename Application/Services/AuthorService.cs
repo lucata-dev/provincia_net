@@ -7,11 +7,11 @@ namespace Application.Services
 {
     public class AuthorService : IAuthorService
     {
-        private readonly IAuthorRepository _repository;
+        private readonly IAuthorRepository categoryRepository;
 
-        public AuthorService(IAuthorRepository repository)
+        public AuthorService(IAuthorRepository categoryRepository)
         {
-            _repository = repository;
+            this.categoryRepository = categoryRepository;
         }
 
         public async Task<int> CreateAsync(CreateAuthorDto dto)
@@ -24,22 +24,22 @@ namespace Application.Services
                 Biography = dto.Biography
             };
 
-            await _repository.AddAsync(author);
-            await _repository.SaveChangesAsync();
+            await this.categoryRepository.AddAsync(author);
+            await this. categoryRepository.SaveChangesAsync();
             return author.Id;
         }
 
         public async Task DeleteAsync(int id)
         {
-            var author = await _repository.GetByIdAsync(id);
+            var author = await this.categoryRepository.GetByIdAsync(id);
             if (author is null) return;
-            _repository.Remove(author);
-            await _repository.SaveChangesAsync();
+            this.categoryRepository.Remove(author);
+            await this.categoryRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<AuthorDto>> GetAllAsync()
         {
-            var authors = await _repository.GetAllAsync();
+            var authors = await this.categoryRepository.GetAllAsync();
             return authors.Select(a => new AuthorDto
             {
                 Id = a.Id,
@@ -52,7 +52,7 @@ namespace Application.Services
 
         public async Task<AuthorDto?> GetByIdAsync(int id)
         {
-            var a = await _repository.GetByIdAsync(id);
+            var a = await this.categoryRepository.GetByIdAsync(id);
             if (a is null) return null;
             return new AuthorDto
             {
@@ -66,7 +66,7 @@ namespace Application.Services
 
         public async Task UpdateAsync(int id, UpdateAuthorDto dto)
         {
-            var author = await _repository.GetByIdAsync(id);
+            var author = await this.categoryRepository.GetByIdAsync(id);
             if (author is null) return;
 
             if (dto.FirstName is not null) author.FirstName = dto.FirstName;
@@ -74,8 +74,8 @@ namespace Application.Services
             if (dto.BirthDate.HasValue) author.BirthDate = dto.BirthDate.Value;
             if (dto.Biography is not null) author.Biography = dto.Biography;
 
-            _repository.Update(author);
-            await _repository.SaveChangesAsync();
+            this.categoryRepository.Update(author);
+            await this.categoryRepository.SaveChangesAsync();
         }
     }
 }

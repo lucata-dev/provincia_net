@@ -17,7 +17,6 @@ namespace Domain.Entities
         [Required]
         public DateTime? BirthDate { get; set; }
 
-        [Required]
         public string? Biography { get; set; }
 
         public ICollection<Book> Books { get; set; } = new List<Book>();

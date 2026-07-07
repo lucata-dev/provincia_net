@@ -25,7 +25,9 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Loan>> GetAllAsync()
         {
-            return await this.context.Loans.ToListAsync();
+            return await this.context.Loans
+                .Include(p => p.Book)
+                .ToListAsync();
         }
 
         public Task<Loan?> GetLoanByIdAsync(int id)
